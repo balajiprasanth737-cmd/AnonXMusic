@@ -24,7 +24,7 @@ class DummyHandler(BaseHTTPRequestHandler):
 def start_server():
     server = HTTPServer(("0.0.0.0", 8080), DummyHandler)
     server.serve_forever()
-  threading.Thread(target=start_server, daemon=True).start()
+    threading.Thread(target=start_server, daemon=True).start()
 
   
 async def idle():
