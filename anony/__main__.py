@@ -24,7 +24,7 @@ class DummyHandler(BaseHTTPRequestHandler):
 
 def start_server():
     port = int(os.environ.get("PORT", 8080))
-    server = HTTPServer(("0.0.0.0", port)
+    server = HTTPServer(("0.0.0.0", port), Dummy handler)
     server.serve_forever()
 
   
