@@ -24,6 +24,8 @@ class DummyHandler(BaseHTTPRequestHandler):
 def start_server():
     server = HTTPServer(("0.0.0.0", 8080), DummyHandler)
     server.serve_forever()
+  threading.Thread(target=start_server, daemon=True).start()
+
   
 async def idle():
     loop = asyncio.get_running_loop()
@@ -42,7 +44,6 @@ async def idle():
     await stop_event.wait()
 
 async def main():
-         threading.Thread(target=start_server, daemon=True).start()
   
     await db.connect()
     await app.boot()
