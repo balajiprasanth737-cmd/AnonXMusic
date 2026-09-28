@@ -3,6 +3,7 @@
 # This file is part of AnonXMusic
 
 
+import os
 import asyncio
 import signal
 import importlib
@@ -22,9 +23,9 @@ class DummyHandler(BaseHTTPRequestHandler):
         self.wfile.write(b"Bot is alive!")
 
 def start_server():
-    server = HTTPServer(("0.0.0.0", 8080), DummyHandler)
+    port = int(os.environ.get("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port)
     server.serve_forever()
-    threading.Thread(target=start_server, daemon=True).start()
 
   
 async def idle():
@@ -44,6 +45,7 @@ async def idle():
     await stop_event.wait()
 
 async def main():
+threading.Thread(target=start_server, daemon=True).start()
   
     await db.connect()
     await app.boot()
