@@ -45,7 +45,7 @@ async def idle():
     await stop_event.wait()
 
 async def main():
-threading.Thread(target=start_server, daemon=True).start()
+    threading.Thread(target=start_server, daemon=True).start()
   
     await db.connect()
     await app.boot()
