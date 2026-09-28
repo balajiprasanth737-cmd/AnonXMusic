@@ -7,11 +7,24 @@ import asyncio
 import signal
 import importlib
 
+from http.server import HTTPServer, BaseHTTPRequestHandler
+import threading
+
 from anony import (anon, app, config, db, logger,
                    stop, thumb, userbot, yt)
 from anony.plugins import all_modules
 
 
+class DummyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is alive!")
+
+def start_server():
+    server = HTTPServer(("0.0.0.0", 8080), DummyHandler)
+    server.serve_forever()
+  
 async def idle():
     loop = asyncio.get_running_loop()
     stop_event = asyncio.Event()
@@ -29,6 +42,8 @@ async def idle():
     await stop_event.wait()
 
 async def main():
+         threading.Thread(target=start_server, daemon=True).start()
+  
     await db.connect()
     await app.boot()
     await userbot.boot()
